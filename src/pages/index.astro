@@ -1,0 +1,28 @@
+---
+import Actions from "../components/Actions.astro";
+import Panel from "../components/Panel.astro";
+import Layout from "../layouts/Layout.astro";
+import Preview from "../components/Preview.astro";
+---
+
+<script>
+  const searchParams = new URLSearchParams(window.location.search);
+  const video = searchParams.get("video");
+
+</script>
+
+<Layout title="Welcome to Astro.">
+  <main class="flex">
+    <section class="flex-1">
+      <Actions />
+      <Preview />
+    </section>
+    <Panel/>
+  </main>
+</Layout>
+
+<style is:global>
+  .video {
+    @apply md:max-w-xl w-full rounded-lg shadow-2xl;
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<div
+  class="md:w-4/5 w-full relative border border-gray-300 mx-auto my-4 rounded-md overflow-hidden shadow-2xl shadow-white/40"
+>
+  <div class="relative w-full h-[440px] bg-gray-300">
+    <video
+      id="preview"
+      width="600"
+      height="440"
+      class="relative size-full"
+      autoplay></video>
+    <div class="absolute inset-0 size-0 blur-2xl border border-red-900"></div>
+  </div>
+  <div class="z-20 absolute inset-x-0 bottom-0 h-20 md:max-w-28 mx-auto">
+    <div
+      class="bg-black/30 saturate-150 backdrop-blur-2xl rounded-full flex justify-center py-2 gap-x-4"
+    >
+      <button><Icon name="microphone" class="size-6" /></button>
+      <button><Icon name="video-camera" class="size-6" /></button>
+    </div>
+  </div>
+</div>

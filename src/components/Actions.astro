@@ -1,0 +1,61 @@
+---
+
+---
+
+<div class="flex p-4 mx-auto w-fit gap-4 rounded-full">
+  <button id="record" class="button">⏺️ Grabar pantalla</button>
+  <button id="stop" class="button">pausar</button>
+</div>
+
+<style>
+  .button {
+    @apply bg-white text-black rounded-md px-4 py-2;
+  }
+</style>
+
+<script>
+  const $ = (selector: string) => document.querySelector(selector);
+  const chunks: Blob[] = [];
+
+  $("#record")?.addEventListener("click", async () => {
+    const media = await navigator.mediaDevices.getDisplayMedia({
+      audio: true,
+      video: {
+        frameRate: {
+          ideal: 30,
+        },
+      },
+    });
+
+    const recorder = new MediaRecorder(media, {
+      mimeType: "video/webm;codecs=vp8,opus",
+    });
+    recorder.start();
+
+    $("#preview").srcObject = media;
+
+    const [video] = media.getVideoTracks();
+    video.addEventListener("ended", () => {
+      recorder.stop();
+    });
+
+    recorder.addEventListener("dataavailable", (e) => {
+      chunks.push(e.data);
+    });
+
+    recorder.addEventListener("stop", () => {
+      encodeRecorder();
+    });
+
+    $("#stop")?.addEventListener("click", () => {
+      recorder.stop();
+      encodeRecorder();
+    });
+  });
+
+  function encodeRecorder() {
+    const blob = new Blob(chunks, { type: "video/webm" });
+    const url = URL.createObjectURL(blob);
+    window.history.replaceState(null, "", `?video=${btoa(url)}`);
+  }
+</script>
